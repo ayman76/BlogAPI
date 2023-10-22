@@ -4,7 +4,6 @@ import com.example.blogapi.model.Blog;
 import com.example.blogapi.repository.BlogRepo;
 import com.example.blogapi.service.interfaces.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BlogServiceImpl implements BlogService {
-    @Autowired
-    private BlogRepo blogRepo;
+    private final BlogRepo blogRepo;
 
     @Override
     public Blog getBlogById(Long id) {

@@ -3,7 +3,6 @@ package com.example.blogapi.controller;
 import com.example.blogapi.model.Blog;
 import com.example.blogapi.service.interfaces.BlogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,7 @@ import java.util.List;
 @RequestMapping("/blogs")
 @RequiredArgsConstructor
 public class BlogController {
-    @Autowired
-    private BlogService blogService;
+    private final BlogService blogService;
 
     @GetMapping("")
     public ResponseEntity<List<Blog>> getAllBlogs() {

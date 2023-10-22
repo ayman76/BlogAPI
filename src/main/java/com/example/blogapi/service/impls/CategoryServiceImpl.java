@@ -4,7 +4,6 @@ import com.example.blogapi.model.Category;
 import com.example.blogapi.repository.CategoryRepo;
 import com.example.blogapi.service.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-
-    @Autowired
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
     @Override
     public Category getCategoryById(Long id) {

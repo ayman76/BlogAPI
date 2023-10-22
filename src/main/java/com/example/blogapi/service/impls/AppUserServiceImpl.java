@@ -4,7 +4,6 @@ import com.example.blogapi.model.AppUser;
 import com.example.blogapi.repository.AppUserRepo;
 import com.example.blogapi.service.interfaces.AppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AppUserServiceImpl implements AppUserService {
-
-    @Autowired
-    private AppUserRepo appUserRepo;
+    private final AppUserRepo appUserRepo;
 
     @Override
     public AppUser getUserById(Long id) {

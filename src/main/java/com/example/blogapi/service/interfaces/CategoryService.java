@@ -1,11 +1,9 @@
 package com.example.blogapi.service.interfaces;
 
 import com.example.blogapi.model.Category;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface CategoryService {
     Category getCategoryById(Long id);
 

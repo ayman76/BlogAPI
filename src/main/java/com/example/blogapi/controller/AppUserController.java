@@ -3,7 +3,6 @@ package com.example.blogapi.controller;
 import com.example.blogapi.model.AppUser;
 import com.example.blogapi.service.interfaces.AppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,8 @@ import java.util.List;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class AppUserController {
-    @Autowired
-    private AppUserService appUserService;
+
+    private final AppUserService appUserService;
 
     @GetMapping("")
     public ResponseEntity<List<AppUser>> getAllUsers() {
