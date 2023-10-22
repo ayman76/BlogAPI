@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class AppUser {
 
     @Id
