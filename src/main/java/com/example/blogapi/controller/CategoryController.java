@@ -19,9 +19,15 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+    @GetMapping("/{identifier}")
+    public ResponseEntity<Category> getCategoryByIdOrSlug(@PathVariable("identifier") String identifier) {
+        // Check if the identifier matches the pattern for an ID (numeric) or a slug (alphanumeric with hyphens)
+        if (identifier.matches("\\d+")) {
+            Long id = Long.valueOf(identifier);
+            return ResponseEntity.ok(categoryService.getCategoryById(id));
+        } else {
+            return ResponseEntity.ok(categoryService.getCategoryBySlug(identifier));
+        }
     }
 
     @PostMapping("")

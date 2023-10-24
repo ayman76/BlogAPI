@@ -14,4 +14,6 @@ public interface CategoryService {
     Category updateCategory(Long id, Category category);
 
     int deleteCategoryById(Long id);
+
+    Category getCategoryBySlug(String slug);
 }

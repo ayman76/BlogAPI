@@ -54,4 +54,14 @@ public class CategoryServiceImpl implements CategoryService {
         }
         throw new RuntimeException("Not Founded Category with id " + id);
     }
+
+    @Override
+    public Category getCategoryBySlug(String slug) {
+        Optional<Category> foundedCategory = categoryRepo.findBySlug(slug);
+        if (foundedCategory.isPresent()) {
+            return foundedCategory.get();
+        }
+
+        throw new RuntimeException("Not Founded Category with slug " + slug);
+    }
 }
