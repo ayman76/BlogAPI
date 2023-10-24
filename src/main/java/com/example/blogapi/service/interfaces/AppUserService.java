@@ -14,4 +14,6 @@ public interface AppUserService {
     AppUser updateUser(Long id, AppUser user);
 
     int deleteUserById(Long id);
+
+    AppUser getUserByUsername(String username);
 }

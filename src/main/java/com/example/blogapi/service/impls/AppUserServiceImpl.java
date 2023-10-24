@@ -37,10 +37,14 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser updateUser(Long id, AppUser user) {
+        System.out.println(user.getPassword());
         Optional<AppUser> foundedUser = appUserRepo.findById(id);
         if (foundedUser.isPresent()) {
             AppUser updatedUser = foundedUser.get();
-            updatedUser.setName(user.getName());
+            updatedUser.setName(checkNullAndReturn(user.getName(), updatedUser.getName()));
+            updatedUser.setUsername(checkNullAndReturn(user.getUsername(), updatedUser.getUsername()));
+            updatedUser.setEmail(checkNullAndReturn(user.getEmail(), updatedUser.getEmail()));
+            updatedUser.setPassword(checkNullAndReturn(user.getPassword(), updatedUser.getPassword()));
             return appUserRepo.save(updatedUser);
         }
         throw new RuntimeException("Not Founded User with id " + id);
@@ -54,5 +58,19 @@ public class AppUserServiceImpl implements AppUserService {
             return 1;
         }
         throw new RuntimeException("Not Founded User with id " + id);
+    }
+
+    @Override
+    public AppUser getUserByUsername(String username) {
+        Optional<AppUser> foundedUser = appUserRepo.findAppUserByUsername(username);
+        if (foundedUser.isPresent()) {
+            return foundedUser.get();
+        }
+
+        throw new RuntimeException("Not Founded User with username " + username);
+    }
+
+    public String checkNullAndReturn(String checkedValue, String defaultValue) {
+        return (checkedValue == null) ? defaultValue : checkedValue;
     }
 }

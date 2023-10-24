@@ -20,9 +20,13 @@ public class AppUserController {
         return ResponseEntity.ok(appUserService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(appUserService.getUserById(id));
+    @GetMapping("/{identifier}")
+    public ResponseEntity<AppUser> getUserById(@PathVariable("identifier") String identifier) {
+        if (identifier.matches("\\d+")) {
+            return ResponseEntity.ok(appUserService.getUserById(Long.valueOf(identifier)));
+        } else {
+            return ResponseEntity.ok(appUserService.getUserByUsername(identifier));
+        }
     }
 
     @PostMapping("")
