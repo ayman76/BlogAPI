@@ -16,5 +16,7 @@ public interface BlogService {
 
     int deleteBlogById(Long id);
 
+    Blog getBlogBySlug(String slug);
+
 
 }

@@ -19,9 +19,17 @@ public class BlogController {
         return ResponseEntity.ok(blogService.getAllBlogs());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Blog> getBlogById(@PathVariable Long id) {
-        return ResponseEntity.ok(blogService.getBlogById(id));
+    @GetMapping("/{identifier}")
+    public ResponseEntity<Blog> getBlogByIdentifier(@PathVariable("identifier") String identifier) {
+
+        if (identifier.matches("\\d+")) {
+            Long id = Long.valueOf(identifier);
+            return ResponseEntity.ok(blogService.getBlogById(id));
+        }
+        else{
+            return ResponseEntity.ok(blogService.getBlogBySlug(identifier));
+        }
+
     }
 
     @PostMapping("")

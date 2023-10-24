@@ -59,4 +59,13 @@ public class BlogServiceImpl implements BlogService {
         }
         throw new RuntimeException("Not Found Blog with id " + id);
     }
+
+    @Override
+    public Blog getBlogBySlug(String slug) {
+        Optional<Blog> foundedBlog = blogRepo.findBlogBySlug(slug);
+        if (foundedBlog.isPresent()) {
+            return foundedBlog.get();
+        }
+        throw new RuntimeException("Not Found Blog with slug " + slug);
+    }
 }
