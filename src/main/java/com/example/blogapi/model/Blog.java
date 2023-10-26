@@ -38,4 +38,9 @@ public class Blog {
 
     @OneToMany(mappedBy = "blog", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tags_blogs", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    private List<Tag> tags;
 }
