@@ -43,6 +43,7 @@ public class BlogServiceImpl implements BlogService {
             updatedBlog.setDescription(blog.getDescription());
             updatedBlog.setUser(blog.getUser());
             updatedBlog.setCategory(blog.getCategory());
+            updatedBlog.setTags(blog.getTags());
 
             return blogRepo.save(updatedBlog);
         }
