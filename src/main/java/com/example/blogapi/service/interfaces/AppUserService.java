@@ -1,19 +1,19 @@
 package com.example.blogapi.service.interfaces;
 
-import com.example.blogapi.model.AppUser;
+import com.example.blogapi.dto.AppUserDto;
 
 import java.util.List;
 
 public interface AppUserService {
-    AppUser getUserById(Long id);
+    AppUserDto getUserById(Long id);
 
-    List<AppUser> getAllUsers();
+    List<AppUserDto> getAllUsers();
 
-    AppUser createUser(AppUser user);
+    AppUserDto createUser(AppUserDto userDto);
 
-    AppUser updateUser(Long id, AppUser user);
+    AppUserDto updateUser(Long id, AppUserDto userDto);
 
     int deleteUserById(Long id);
 
-    AppUser getUserByUsername(String username);
+    AppUserDto getUserByUsername(String username);
 }

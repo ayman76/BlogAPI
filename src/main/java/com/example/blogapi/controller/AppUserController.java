@@ -1,6 +1,6 @@
 package com.example.blogapi.controller;
 
-import com.example.blogapi.model.AppUser;
+import com.example.blogapi.dto.AppUserDto;
 import com.example.blogapi.service.interfaces.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @GetMapping("")
-    public ResponseEntity<List<AppUser>> getAllUsers() {
+    public ResponseEntity<List<AppUserDto>> getAllUsers() {
         return ResponseEntity.ok(appUserService.getAllUsers());
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<AppUser> getUserById(@PathVariable("identifier") String identifier) {
+    public ResponseEntity<AppUserDto> getUserById(@PathVariable("identifier") String identifier) {
         if (identifier.matches("\\d+")) {
             return ResponseEntity.ok(appUserService.getUserById(Long.valueOf(identifier)));
         } else {
@@ -30,13 +30,13 @@ public class AppUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<AppUserDto> createUser(@RequestBody AppUserDto appUser) {
         return ResponseEntity.ok(appUserService.createUser(appUser));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody AppUser appUser) {
+    public ResponseEntity<AppUserDto> updateUser(@PathVariable Long id, @RequestBody AppUserDto appUser) {
         return ResponseEntity.ok(appUserService.updateUser(id, appUser));
     }
 
