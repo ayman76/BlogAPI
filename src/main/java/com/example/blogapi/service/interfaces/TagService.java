@@ -1,17 +1,17 @@
 package com.example.blogapi.service.interfaces;
 
-import com.example.blogapi.model.Tag;
+import com.example.blogapi.dto.TagDto;
 
 import java.util.List;
 
 public interface TagService {
-    List<Tag> getAllTags();
+    List<TagDto> getAllTags();
 
-    Tag getTagById(Long id);
+    TagDto getTagById(Long id);
 
-    Tag createTag(Tag tag);
+    TagDto createTag(TagDto tagDto);
 
-    Tag updateTag(Long id, Tag tag);
+    TagDto updateTag(Long id, TagDto tagDto);
 
     int deleteTag(Long id);
 }

@@ -1,6 +1,6 @@
 package com.example.blogapi.controller;
 
-import com.example.blogapi.model.Tag;
+import com.example.blogapi.dto.TagDto;
 import com.example.blogapi.service.interfaces.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,22 +16,22 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping("")
-    public ResponseEntity<List<Tag>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         return ResponseEntity.ok(tagService.getAllTags());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tag> getTagById(@PathVariable Long id) {
+    public ResponseEntity<TagDto> getTagById(@PathVariable Long id) {
         return ResponseEntity.ok(tagService.getTagById(id));
     }
 
     @PostMapping("")
-    public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
+    public ResponseEntity<TagDto> createTag(@RequestBody TagDto tag) {
         return ResponseEntity.ok(tagService.createTag(tag));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Tag> updateTag(@PathVariable Long id, @RequestBody Tag tag) {
+    public ResponseEntity<TagDto> updateTag(@PathVariable Long id, @RequestBody TagDto tag) {
         return ResponseEntity.ok(tagService.updateTag(id, tag));
     }
 
