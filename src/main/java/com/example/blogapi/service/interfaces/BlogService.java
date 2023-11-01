@@ -1,22 +1,23 @@
 package com.example.blogapi.service.interfaces;
 
-import com.example.blogapi.model.Blog;
+import com.example.blogapi.dto.blog.BlogDto;
+import com.example.blogapi.dto.blog.BlogRequestDto;
 
 import java.util.List;
 
 public interface BlogService {
 
-    Blog getBlogById(Long id);
+    BlogDto getBlogById(Long id);
 
-    List<Blog> getAllBlogs();
+    List<BlogDto> getAllBlogs();
 
-    Blog createBlog(Blog blog);
+    BlogDto createBlog(BlogRequestDto blogDto);
 
-    Blog updateBlog(Long id, Blog blog) throws RuntimeException;
+    BlogDto updateBlog(Long id, BlogRequestDto blogDto) throws RuntimeException;
 
     int deleteBlogById(Long id);
 
-    Blog getBlogBySlug(String slug);
+    BlogDto getBlogBySlug(String slug);
 
 
 }
