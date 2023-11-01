@@ -1,17 +1,18 @@
 package com.example.blogapi.service.interfaces;
 
-import com.example.blogapi.model.Comment;
+import com.example.blogapi.dto.comment.CommentDto;
+import com.example.blogapi.dto.comment.CommentRequestDto;
 
 import java.util.List;
 
 public interface CommentService {
-    Comment getCommentById(Long blogId, Long id);
+    CommentDto getCommentById(Long blogId, Long id);
 
-    List<Comment> getAllComments(Long blogId);
+    List<CommentDto> getAllComments(Long blogId);
 
-    Comment createComment(Long blogId, Comment comment);
+    CommentDto createComment(Long blogId, CommentRequestDto commentDto);
 
-    Comment updateComment(Long blogId, Long id, Comment comment);
+    CommentDto updateComment(Long blogId, Long id, CommentRequestDto commentDto);
 
     int deleteComment(Long blogId, Long id);
 }
