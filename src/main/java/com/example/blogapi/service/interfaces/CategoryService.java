@@ -1,19 +1,19 @@
 package com.example.blogapi.service.interfaces;
 
-import com.example.blogapi.model.Category;
+import com.example.blogapi.dto.CategoryDto;
 
 import java.util.List;
 
 public interface CategoryService {
-    Category getCategoryById(Long id);
+    CategoryDto getCategoryById(Long id);
 
-    List<Category> getAllCategories();
+    List<CategoryDto> getAllCategories();
 
-    Category createCategory(Category category);
+    CategoryDto createCategory(CategoryDto categoryDto);
 
-    Category updateCategory(Long id, Category category);
+    CategoryDto updateCategory(Long id, CategoryDto categoryDto);
 
     int deleteCategoryById(Long id);
 
-    Category getCategoryBySlug(String slug);
+    CategoryDto getCategoryBySlug(String slug);
 }

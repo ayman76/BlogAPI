@@ -1,6 +1,6 @@
 package com.example.blogapi.controller;
 
-import com.example.blogapi.model.Category;
+import com.example.blogapi.dto.CategoryDto;
 import com.example.blogapi.service.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<Category> getCategoryByIdOrSlug(@PathVariable("identifier") String identifier) {
+    public ResponseEntity<CategoryDto> getCategoryByIdOrSlug(@PathVariable("identifier") String identifier) {
         // Check if the identifier matches the pattern for an ID (numeric) or a slug (alphanumeric with hyphens)
         if (identifier.matches("\\d+")) {
             Long id = Long.valueOf(identifier);
@@ -31,12 +31,12 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto category) {
         return ResponseEntity.ok(categoryService.createCategory(category));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto category) {
         return ResponseEntity.ok(categoryService.updateCategory(id, category));
     }
 

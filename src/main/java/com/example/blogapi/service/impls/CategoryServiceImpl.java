@@ -1,67 +1,62 @@
 package com.example.blogapi.service.impls;
 
+import com.example.blogapi.dto.CategoryDto;
 import com.example.blogapi.model.Category;
 import com.example.blogapi.repository.CategoryRepo;
 import com.example.blogapi.service.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+    private final ModelMapper modelMapper;
     private final CategoryRepo categoryRepo;
 
+
     @Override
-    public Category getCategoryById(Long id) {
-        Optional<Category> foundedCategory = categoryRepo.findById(id);
-        if (foundedCategory.isPresent()) {
-            return foundedCategory.get();
-        }
-        throw new RuntimeException("Not Founded Category with id " + id);
+    public CategoryDto getCategoryById(Long id) {
+        Category foundedCategory = categoryRepo.findById(id).orElseThrow(() -> new RuntimeException("Not Founded Category with id: " + id));
+        return modelMapper.map(foundedCategory, CategoryDto.class);
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepo.findAll();
+    public List<CategoryDto> getAllCategories() {
+        return categoryRepo.findAll().stream().map(c -> modelMapper.map(c, CategoryDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    public Category createCategory(Category category) {
-        return categoryRepo.save(category);
+    public CategoryDto createCategory(CategoryDto categoryDto) {
+        Category category = modelMapper.map(categoryDto, Category.class);
+        Category newCategory = categoryRepo.save(category);
+        return modelMapper.map(newCategory, CategoryDto.class);
     }
 
     @Override
-    public Category updateCategory(Long id, Category category) {
-        Optional<Category> foundedCategory = categoryRepo.findById(id);
-        if (foundedCategory.isPresent()) {
-            Category updatedCategory = foundedCategory.get();
-            updatedCategory.setName(category.getName());
-            updatedCategory.setSlug(category.getSlug());
-            return categoryRepo.save(updatedCategory);
-        }
-        throw new RuntimeException("Not Founded Category with id " + id);
+    public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
+        Category foundedCategory = categoryRepo.findById(id).orElseThrow(() -> new RuntimeException("Not Founded Category with id: " + id));
+        foundedCategory.setName(categoryDto.getName());
+        foundedCategory.setSlug(categoryDto.getSlug());
+        Category updatedCategory = categoryRepo.save(foundedCategory);
+        return modelMapper.map(updatedCategory, CategoryDto.class);
     }
 
     @Override
     public int deleteCategoryById(Long id) {
-        Optional<Category> foundedCategory = categoryRepo.findById(id);
-        if (foundedCategory.isPresent()) {
-            categoryRepo.deleteById(id);
-            return 1;
-        }
-        throw new RuntimeException("Not Founded Category with id " + id);
+        Category foundedCategory = categoryRepo.findById(id).orElseThrow(() -> new RuntimeException("Not Founded Category with id: " + id));
+        categoryRepo.deleteById(foundedCategory.getId());
+        return id.intValue();
     }
 
     @Override
-    public Category getCategoryBySlug(String slug) {
-        Optional<Category> foundedCategory = categoryRepo.findBySlug(slug);
-        if (foundedCategory.isPresent()) {
-            return foundedCategory.get();
-        }
+    public CategoryDto getCategoryBySlug(String slug) {
+        Category foundedCategory = categoryRepo.findBySlug(slug).orElseThrow(() -> new RuntimeException("Not Founded Category with slug: " + slug));
+        return modelMapper.map(foundedCategory, CategoryDto.class);
 
-        throw new RuntimeException("Not Founded Category with slug " + slug);
     }
+
 }
