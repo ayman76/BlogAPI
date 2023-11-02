@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +43,7 @@ public class BlogServiceImpl implements BlogService {
     public BlogDto createBlog(BlogRequestDto blogDto) {
         Category category = categoryRepo.findById(blogDto.getCategoryId()).orElseThrow(() -> new RuntimeException("Not Founded Category with id " + blogDto.getCategoryId()));
         AppUser appUser = appUserRepo.findById(blogDto.getUserId()).orElseThrow(() -> new RuntimeException("Not Founded User with Id: " + blogDto.getUserId()));
-        List<Tag> tags = blogDto.getTags().stream().map(t -> tagRepo.findById(t).orElseThrow(() -> new RuntimeException("Not Founded Tag with id " + t))).toList();
+        Set<Tag> tags = blogDto.getTags().stream().map(t -> tagRepo.findById(t).orElseThrow(() -> new RuntimeException("Not Founded Tag with id " + t))).collect(Collectors.toSet());
         Blog blog = modelMapper.map(blogDto, Blog.class);
         blog.setUser(appUser);
         blog.setCategory(category);
@@ -55,12 +56,12 @@ public class BlogServiceImpl implements BlogService {
     public BlogDto updateBlog(Long id, BlogRequestDto blogDto) throws RuntimeException {
         Category category = categoryRepo.findById(blogDto.getCategoryId()).orElseThrow(() -> new RuntimeException("Not Founded Category with id " + blogDto.getCategoryId()));
         Blog foundedBlog = blogRepo.findById(id).orElseThrow(() -> new RuntimeException("Not Found BlogDto with id " + id));
-        List<Tag> tags = blogDto.getTags().stream().map(t -> tagRepo.findById(t).orElseThrow(() -> new RuntimeException("Not Founded Tag with id " + t))).toList();
+        Set<Tag> tags = blogDto.getTags().stream().map(t -> tagRepo.findById(t).orElseThrow(() -> new RuntimeException("Not Founded Tag with id " + t))).collect(Collectors.toSet());
         foundedBlog.setTitle(blogDto.getTitle());
         foundedBlog.setSlug(blogDto.getSlug());
         foundedBlog.setDescription(blogDto.getDescription());
         foundedBlog.setCategory(category);
-        foundedBlog.getTags().addAll(tags);
+        foundedBlog.setTags(tags);
         Blog updatedBlog = blogRepo.save(foundedBlog);
         return modelMapper.map(updatedBlog, BlogDto.class);
 

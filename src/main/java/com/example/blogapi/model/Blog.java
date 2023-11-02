@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "blogs")
@@ -40,5 +41,5 @@ public class Blog {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tags_blogs", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-    private List<Tag> tags;
+    private Set<Tag> tags;
 }
