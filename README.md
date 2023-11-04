@@ -6,7 +6,7 @@ This API allow to access and create data from many categories such as Blogs, com
 
 ## Documentation
 
-https://documenter.getpostman.com/view/26688798/2s9YXe6P3H
+- https://documenter.getpostman.com/view/26688798/2s9YXe6P3H
 
 
 ## Get Started
