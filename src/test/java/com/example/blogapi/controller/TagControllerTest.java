@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 class TagControllerTest {
+    private static final String URL = "/api/v1/tags";
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +55,7 @@ class TagControllerTest {
     public void TagController_CreateTag_ReturnIsOk() throws Exception {
         when(tagService.createTag(Mockito.any(TagDto.class))).thenReturn(tagDto);
 
-        ResultActions response = mockMvc.perform(post("/tags")
+        ResultActions response = mockMvc.perform(post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(tagDto)));
 
@@ -67,7 +68,7 @@ class TagControllerTest {
     public void TagController_GetTagById_ReturnIsOk() throws Exception {
         when(tagService.getTagById(Mockito.anyLong())).thenReturn(tagDto);
 
-        ResultActions response = mockMvc.perform(get("/tags/1")
+        ResultActions response = mockMvc.perform(get(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -79,7 +80,7 @@ class TagControllerTest {
     public void TagController_GetAllTags_ReturnIsOk() throws Exception {
         when(tagService.getAllTags()).thenReturn(tagDtos);
 
-        ResultActions response = mockMvc.perform(get("/tags")
+        ResultActions response = mockMvc.perform(get(URL)
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -91,7 +92,7 @@ class TagControllerTest {
     public void TagController_UpdateTag_ReturnIsOk() throws Exception {
         when(tagService.updateTag(Mockito.anyLong(), Mockito.any(TagDto.class))).thenReturn(tagDto);
 
-        ResultActions response = mockMvc.perform(put("/tags/1")
+        ResultActions response = mockMvc.perform(put(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(tagDto)));
 
@@ -104,7 +105,7 @@ class TagControllerTest {
     public void TagController_DeleteTag_ReturnIsOk() throws Exception {
         when(tagService.deleteTag(Mockito.anyLong())).thenReturn(tagDto.getId().intValue());
 
-        ResultActions response = mockMvc.perform(delete("/tags/1")
+        ResultActions response = mockMvc.perform(delete(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())

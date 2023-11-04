@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 class CommentControllerTest {
-
+    private static final String URL = "/api/v1/blog/1/comments";
     @Autowired
     private MockMvc mockMvc;
 
@@ -60,7 +60,7 @@ class CommentControllerTest {
     public void CommentController_CreateComment_ReturnIsOk() throws Exception {
         when(commentService.createComment(Mockito.anyLong(), Mockito.any(CommentRequestDto.class))).thenReturn(commentDto);
 
-        ResultActions response = mockMvc.perform(post("/blog/1/comments").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(commentRequestDto)));
+        ResultActions response = mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(commentRequestDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
@@ -70,7 +70,7 @@ class CommentControllerTest {
     public void CommentController_GetCommentById_ReturnIsOk() throws Exception {
         when(commentService.getCommentById(Mockito.anyLong(), Mockito.anyLong())).thenReturn(commentDto);
 
-        ResultActions response = mockMvc.perform(get("/blog/1/comments/1").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL + "/1").contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(commentDto.getId().intValue())))
@@ -82,7 +82,7 @@ class CommentControllerTest {
     public void CommentController_GetAllComments_ReturnIsOk() throws Exception {
         when(commentService.getAllComments(Mockito.anyLong())).thenReturn(commentDtos);
 
-        ResultActions response = mockMvc.perform(get("/blog/1/comments").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL).contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(commentDtos.size())))
@@ -93,7 +93,7 @@ class CommentControllerTest {
     public void CommentController_UpdateComment_ReturnIsOk() throws Exception {
         when(commentService.updateComment(Mockito.anyLong(), Mockito.anyLong(), Mockito.any(CommentRequestDto.class))).thenReturn(commentDto);
 
-        ResultActions response = mockMvc.perform(put("/blog/1/comments/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(commentRequestDto)));
+        ResultActions response = mockMvc.perform(put(URL + "/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(commentRequestDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.body", CoreMatchers.is(commentDto.getBody())))
@@ -104,7 +104,7 @@ class CommentControllerTest {
     public void CommentController_DeleteComment_ReturnIsOk() throws Exception {
         when(commentService.deleteComment(Mockito.anyLong(), Mockito.anyLong())).thenReturn(commentDto.getId().intValue());
 
-        ResultActions response = mockMvc.perform(delete("/blog/1/comments/1").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(delete(URL + "/1").contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", CoreMatchers.is(commentDto.getId().intValue())))

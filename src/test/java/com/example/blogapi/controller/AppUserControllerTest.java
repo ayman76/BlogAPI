@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebMvcTest(controllers = AppUserController.class)
 class AppUserControllerTest {
 
+    private static final String URL = "/api/v1/users";
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,81 +51,54 @@ class AppUserControllerTest {
     public void AppUserController_getAllUsers_ReturnsIsOk() throws Exception {
         when(appUserService.getAllUsers()).thenReturn(Arrays.asList(appUserDto, appUserDto));
 
-        ResultActions response = mockMvc.perform(get("/users")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL).contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(Arrays.asList(appUserDto, appUserDto).size())))
-                .andDo(MockMvcResultHandlers.print());
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(Arrays.asList(appUserDto, appUserDto).size()))).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void AppUserController_CreateAppUser_ReturnsIsCreated() throws Exception {
         when(appUserService.createUser(Mockito.any(AppUserDto.class))).thenReturn(appUserDto);
 
-        ResultActions response = mockMvc.perform(post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(appUserDto)));
+        ResultActions response = mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appUserDto)));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName()))).andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername()))).andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail()))).andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
     }
 
     @Test
     public void AppUserController_GetAppUserByID_ReturnsIsOk() throws Exception {
         when(appUserService.getUserById(Mockito.anyLong())).thenReturn(appUserDto);
 
-        ResultActions response = mockMvc.perform(get("/users/1")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL + "/1").contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName()))).andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername()))).andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail()))).andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
     }
 
     @Test
     public void AppUserController_GetAppUserByUsername_ReturnsIsOk() throws Exception {
         when(appUserService.getUserByUsername(Mockito.anyString())).thenReturn(appUserDto);
 
-        ResultActions response = mockMvc.perform(get("/users/ayman00")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL + "/ayman00").contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName()))).andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername()))).andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail()))).andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
     }
 
     @Test
     public void AppUserController_UpdateAppUser_ReturnsIsOk() throws Exception {
         when(appUserService.updateUser(Mockito.anyLong(), Mockito.any(AppUserDto.class))).thenReturn(appUserDto);
 
-        ResultActions response = mockMvc.perform(put("/users/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(appUserDto)));
+        ResultActions response = mockMvc.perform(put(URL + "/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appUserDto)));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(appUserDto.getName()))).andExpect(MockMvcResultMatchers.jsonPath("$.username", CoreMatchers.is(appUserDto.getUsername()))).andExpect(MockMvcResultMatchers.jsonPath("$.email", CoreMatchers.is(appUserDto.getEmail()))).andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(appUserDto.getPassword())));
     }
 
     @Test
     public void AppUserController_DeleteAppUser_ReturnsIsOk() throws Exception {
         when(appUserService.deleteUserById(Mockito.anyLong())).thenReturn(appUserDto.getId().intValue());
 
-        ResultActions response = mockMvc.perform(delete("/users/1")
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(delete(URL + "/1").contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", CoreMatchers.is(appUserDto.getId().intValue())));
+        response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$", CoreMatchers.is(appUserDto.getId().intValue())));
     }
 
 

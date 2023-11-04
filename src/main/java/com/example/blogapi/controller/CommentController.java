@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("blog/{blogId}/comments")
+@RequestMapping("/api/v1/blog/{blogId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 

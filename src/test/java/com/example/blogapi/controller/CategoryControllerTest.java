@@ -31,6 +31,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(MockitoExtension.class)
 class CategoryControllerTest {
 
+    private static final String URL = "/api/v1/categories";
+
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -53,7 +55,7 @@ class CategoryControllerTest {
     public void CategoryController_CreateCategory_ReturnsIsOk() throws Exception {
         when(categoryService.createCategory(Mockito.any(CategoryDto.class))).thenReturn(categoryDto);
 
-        ResultActions response = mockMvc.perform(post("/categories").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(categoryDto)));
+        ResultActions response = mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(categoryDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
@@ -62,7 +64,7 @@ class CategoryControllerTest {
     public void CategoryController_GetCategoryById_ReturnsIsOk() throws Exception {
         when(categoryService.getCategoryById(Mockito.anyLong())).thenReturn(categoryDto);
 
-        ResultActions response = mockMvc.perform(get("/categories/1").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL + "/1").contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
@@ -71,7 +73,7 @@ class CategoryControllerTest {
     public void CategoryController_GetCategoryBySlug_ReturnsIsOk() throws Exception {
         when(categoryService.getCategoryBySlug(Mockito.anyString())).thenReturn(categoryDto);
 
-        ResultActions response = mockMvc.perform(get("/categories/category-slug").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL + "/category-slug").contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
@@ -80,7 +82,7 @@ class CategoryControllerTest {
     public void CategoryController_GetAllCategories_ReturnsIsOk() throws Exception {
         when(categoryService.getAllCategories()).thenReturn(categoryDtoList);
 
-        ResultActions response = mockMvc.perform(get("/categories").contentType(MediaType.APPLICATION_JSON));
+        ResultActions response = mockMvc.perform(get(URL).contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.size()", CoreMatchers.is(categoryDtoList.size()))).andDo(MockMvcResultHandlers.print());
     }
@@ -89,7 +91,7 @@ class CategoryControllerTest {
     public void CategoryController_UpdateCategory_ReturnsIsOk() throws Exception {
         when(categoryService.updateCategory(Mockito.anyLong(), Mockito.any(CategoryDto.class))).thenReturn(categoryDto);
 
-        ResultActions response = mockMvc.perform(put("/categories/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(categoryDto)));
+        ResultActions response = mockMvc.perform(put(URL + "/1").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(categoryDto)));
 
         response.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(categoryDto.getName()))).andExpect(MockMvcResultMatchers.jsonPath("$.slug", CoreMatchers.is(categoryDto.getSlug()))).andDo(MockMvcResultHandlers.print());
     }
@@ -97,9 +99,7 @@ class CategoryControllerTest {
     @Test
     public void CategoryController_DeleteCategory_ReturnsIsOk() throws Exception {
         when(categoryService.deleteCategoryById(Mockito.anyLong())).thenReturn(categoryDto.getId().intValue());
-
-        ResultActions response = mockMvc.perform(delete("/categories/1").contentType(MediaType.APPLICATION_JSON));
-
+        ResultActions response = mockMvc.perform(delete(URL + "/1").contentType(MediaType.APPLICATION_JSON));
         response.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", CoreMatchers.is(categoryDto.getId().intValue())))
                 .andDo(MockMvcResultHandlers.print());

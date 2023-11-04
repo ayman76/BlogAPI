@@ -35,6 +35,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(MockitoExtension.class)
 class BlogControllerTest {
 
+    private static final String URL = "/api/v1/blogs";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -65,7 +67,7 @@ class BlogControllerTest {
     public void BlogController_CreateBlog_ReturnsIsOk() throws Exception {
         when(blogService.createBlog(blogRequestDto)).thenReturn(blogDto);
 
-        ResultActions response = mockMvc.perform(post("/blogs")
+        ResultActions response = mockMvc.perform(post(URL)
                 .content(objectMapper.writeValueAsString(blogRequestDto))
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -79,7 +81,7 @@ class BlogControllerTest {
         List<BlogDto> blogDtos = new ArrayList<>(Arrays.asList(blogDto, blogDto));
         when(blogService.getAllBlogs()).thenReturn(blogDtos);
 
-        ResultActions response = mockMvc.perform(get("/blogs")
+        ResultActions response = mockMvc.perform(get(URL)
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -92,7 +94,7 @@ class BlogControllerTest {
 
         when(blogService.getBlogById(Mockito.anyLong())).thenReturn(blogDto);
 
-        ResultActions response = mockMvc.perform(get("/blogs/1")
+        ResultActions response = mockMvc.perform(get(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -104,7 +106,7 @@ class BlogControllerTest {
 
         when(blogService.getBlogBySlug(Mockito.anyString())).thenReturn(blogDto);
 
-        ResultActions response = mockMvc.perform(get("/blogs/blog-slug")
+        ResultActions response = mockMvc.perform(get(URL + "/blog-slug")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -116,7 +118,7 @@ class BlogControllerTest {
 
         when(blogService.deleteBlogById(Mockito.anyLong())).thenReturn(blogDto.getId().intValue());
 
-        ResultActions response = mockMvc.perform(delete("/blogs/1")
+        ResultActions response = mockMvc.perform(delete(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -129,7 +131,7 @@ class BlogControllerTest {
 
         when(blogService.updateBlog(Mockito.anyLong(), Mockito.any(BlogRequestDto.class))).thenReturn(blogDto);
 
-        ResultActions response = mockMvc.perform(put("/blogs/1")
+        ResultActions response = mockMvc.perform(put(URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(blogRequestDto)));
 
