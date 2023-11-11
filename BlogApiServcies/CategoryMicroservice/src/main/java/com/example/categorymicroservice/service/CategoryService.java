@@ -1,6 +1,6 @@
-package com.example.blogapi.service.interfaces;
+package com.example.categorymicroservice.service;
 
-import com.example.blogapi.dto.CategoryDto;
+import com.example.categorymicroservice.dto.CategoryDto;
 
 import java.util.List;
 

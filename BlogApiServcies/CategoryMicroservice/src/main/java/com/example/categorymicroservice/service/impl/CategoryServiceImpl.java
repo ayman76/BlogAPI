@@ -1,9 +1,10 @@
-package com.example.blogapi.service.impls;
+package com.example.categorymicroservice.service.impl;
 
-import com.example.blogapi.dto.CategoryDto;
-import com.example.blogapi.model.Category;
-import com.example.blogapi.repository.CategoryRepo;
-import com.example.blogapi.service.interfaces.CategoryService;
+
+import com.example.categorymicroservice.dto.CategoryDto;
+import com.example.categorymicroservice.model.Category;
+import com.example.categorymicroservice.repository.CategoryRepo;
+import com.example.categorymicroservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

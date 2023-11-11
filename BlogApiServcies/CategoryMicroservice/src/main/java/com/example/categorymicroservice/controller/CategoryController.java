@@ -1,7 +1,7 @@
-package com.example.blogapi.controller;
+package com.example.categorymicroservice.controller;
 
-import com.example.blogapi.dto.CategoryDto;
-import com.example.blogapi.service.interfaces.CategoryService;
+import com.example.categorymicroservice.dto.CategoryDto;
+import com.example.categorymicroservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
