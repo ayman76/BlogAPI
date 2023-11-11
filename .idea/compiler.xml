@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
         <module name="BlogApi" />
+        <module name="CategoryMicroservice" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="BlogApi" options="-parameters" />
+      <module name="CategoryMicroservice" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
     </option>
   </component>

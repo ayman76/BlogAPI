@@ -4,13 +4,13 @@ import com.example.blogapi.dto.AppUserDto;
 import com.example.blogapi.dto.CategoryDto;
 import com.example.blogapi.dto.blog.BlogDto;
 import com.example.blogapi.dto.blog.BlogRequestDto;
+import com.example.blogapi.microservice.CategoryMicroserviceProxy;
 import com.example.blogapi.model.AppUser;
 import com.example.blogapi.model.Blog;
 import com.example.blogapi.model.Category;
 import com.example.blogapi.model.Tag;
 import com.example.blogapi.repository.AppUserRepo;
 import com.example.blogapi.repository.BlogRepo;
-import com.example.blogapi.repository.CategoryRepo;
 import com.example.blogapi.repository.TagRepo;
 import com.example.blogapi.service.impls.BlogServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -22,6 +22,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.*;
 
@@ -32,13 +34,12 @@ import static org.mockito.Mockito.when;
 class BlogServiceTest {
 
     private final Long BLOG_ID = 1L;
-    private Category category;
     @Mock
     private BlogRepo blogRepo;
     @Mock
     private AppUserRepo appUserRepo;
     @Mock
-    private CategoryRepo categoryRepo;
+    private CategoryMicroserviceProxy categoryMicroserviceProxy;
     @Mock
     private TagRepo tagRepo;
     @InjectMocks
@@ -46,16 +47,17 @@ class BlogServiceTest {
     private Blog blog;
     private AppUser appUser;
     private BlogRequestDto blogRequestDto;
+    private CategoryDto categoryDto;
 
     @BeforeEach
     public void setUp() {
         ModelMapper modelMapper = new ModelMapper();
-        blogService = new BlogServiceImpl(modelMapper, blogRepo, categoryRepo, appUserRepo, tagRepo);
+        blogService = new BlogServiceImpl(modelMapper, blogRepo, appUserRepo, tagRepo, categoryMicroserviceProxy);
         appUser = AppUser.builder().name("Ayman").email("ayman@gmail.com").password("password12").username("ayman00").build();
         Long APP_USER_ID = 1L;
         AppUserDto appUserDto = AppUserDto.builder().id(APP_USER_ID).name("Ayman").email("ayman@gmail.com").password("password12").username("ayman00").build();
-        category = Category.builder().name("category").slug("category-slug").build();
-        CategoryDto categoryDto = CategoryDto.builder().id(APP_USER_ID).name("category").slug("category-slug").build();
+        Category category = Category.builder().name("category").slug("category-slug").build();
+        categoryDto = CategoryDto.builder().id(1L).name("category").slug("category-slug").build();
         blog = Blog.builder().id(BLOG_ID).title("blog").description("blog description").slug("blog-slug").user(appUser).category(category).build();
         blogRequestDto = BlogRequestDto.builder().title("blog").description("blog description").slug("blog-slug").userId(appUserDto.getId()).categoryId(categoryDto.getId()).tags(Arrays.asList(1L, 2L)).build();
     }
@@ -63,8 +65,9 @@ class BlogServiceTest {
     @Test
     public void BlogService_CreateBlog_ReturnBlogDto() {
 
+        ResponseEntity<CategoryDto> categoryDtoResponseEntity = new ResponseEntity<>(categoryDto, HttpStatus.OK);
         Tag tag = Tag.builder().id(1L).name("tag").build();
-        when(categoryRepo.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(category));
+        when(categoryMicroserviceProxy.findById(Mockito.anyLong())).thenReturn(categoryDtoResponseEntity);
         when(appUserRepo.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(appUser));
         when(tagRepo.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(tag));
         when(blogRepo.save(any(Blog.class))).thenReturn(blog);
@@ -107,11 +110,12 @@ class BlogServiceTest {
 
     @Test
     public void BlogService_UpdateBlog_ReturnBlogDto() {
+        ResponseEntity<CategoryDto> categoryDtoResponseEntity = new ResponseEntity<>(categoryDto, HttpStatus.OK);
         Tag tag1 = Tag.builder().id(1L).name("tag").build();
         Tag tag2 = Tag.builder().id(2L).name("tag").build();
         blog.setTags(Set.of(tag1, tag2));
         when(blogRepo.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(blog));
-        when(categoryRepo.findById(Mockito.anyLong())).thenReturn(Optional.ofNullable(category));
+        when(categoryMicroserviceProxy.findById(Mockito.anyLong())).thenReturn(categoryDtoResponseEntity);
         when(tagRepo.findById(1L)).thenReturn(Optional.of(tag1));
         when(tagRepo.findById(2L)).thenReturn(Optional.of(tag2));
         when(blogRepo.save(any(Blog.class))).thenReturn(blog);

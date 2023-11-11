@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BlogApi.iml" filepath="$PROJECT_DIR$/BlogApi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BlogApiServcies/CategoryMicroservice/CategoryMicroservice.iml" filepath="$PROJECT_DIR$/BlogApiServcies/CategoryMicroservice/CategoryMicroservice.iml" />
     </modules>
   </component>
 </project>
